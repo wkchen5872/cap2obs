@@ -1,0 +1,22 @@
+walkthrough.md
+.agent/rules/
+.agent/skills/
+.gemini/
+LOCAL_CONFIG.md
+
+# Dependencies
+node_modules/
+__pycache__/
+*.pyc
+
+# System
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+.clauderc
+
+# Helper files
+todo.md
+issues.md
