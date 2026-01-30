@@ -1,0 +1,13 @@
+# Example cron job configurations for Cap2Obs
+
+# Run daily at 1:00 PM
+0 13 * * * /usr/local/bin/cap2obs --backup-dir /data/backups --obsidian-vault /home/user/vault --log-file /var/log/cap2obs.log
+
+# Run daily at 1:00 PM with auto-cleanup (keep 7 days)
+0 13 * * * /usr/local/bin/cap2obs --backup-dir /data/backups --obsidian-vault /home/user/vault --keep-days 7 --log-file /var/log/cap2obs.log
+
+# Run every 6 hours
+0 */6 * * * /usr/local/bin/cap2obs --backup-dir /data/backups --obsidian-vault /home/user/vault --log-file /var/log/cap2obs.log
+
+# Run using the automation script
+0 13 * * * /path/to/Cap2Obs/examples/automation.sh

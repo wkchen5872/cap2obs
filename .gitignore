@@ -1,0 +1,59 @@
+walkthrough.md
+.agent/rules/
+.agent/skills/
+.gemini/
+LOCAL_CONFIG.md
+
+# Dependencies
+node_modules/
+__pycache__/
+*.pyc
+
+# OS and Editor files
+.DS_Store
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+*.cover
+.hypothesis/
+
+# Cap2Obs specific
+.temp_cap2obs/
+*.log
+.clauderc
+
+# Helper files
+todo.md
+issues.md
