@@ -4,14 +4,14 @@
 
 # Configuration
 BACKUP_DIR="/path/to/capacities/backups"
-OBSIDIAN_VAULT="/path/to/obsidian/vault"
+OBSIDIAN_ROOT="/path/to/obsidian/root"
 LOG_FILE="/var/log/cap2obs.log"
 KEEP_DAYS=7
 
 # Run Cap2Obs
 /usr/local/bin/cap2obs \
   --backup-dir "$BACKUP_DIR" \
-  --obsidian-vault "$OBSIDIAN_VAULT" \
+  --obsidian-root "$OBSIDIAN_ROOT" \
   --log-file "$LOG_FILE" \
   --keep-days "$KEEP_DAYS"
 

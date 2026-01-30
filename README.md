@@ -14,15 +14,35 @@ Automatic synchronization tool for Capacities backups to Obsidian vaults.
 
 ## Installation
 
-### Requirements
-- Python 3.10 or higher
-- macOS or Linux
-
-### Install from source
+### Option 1: Development Install (Recommended for easy updates)
+Clone the repository and install in editable mode:
 ```bash
 git clone <repository-url>
 cd Cap2Obs
 pip install -e .
+```
+This requires your Python environment to be active when running the command.
+
+### Option 2: Build Standalone Binary (Recommended for Automation)
+Create a standalone executable that works without an active Python environment (perfect for cron jobs).
+
+1. Build the binary using the provided script:
+   ```bash
+   make build
+   # OR direct script: ./scripts/build.sh
+   ```
+
+2. Install to your system path:
+   ```bash
+   sudo cp dist/cap2obs /usr/local/bin/
+   ```
+
+Now you can run `cap2obs` from anywhere.
+
+### Option 3: Using pipx
+If you use `pipx` to manage CLI tools:
+```bash
+pipx install .
 ```
 
 ## Usage
