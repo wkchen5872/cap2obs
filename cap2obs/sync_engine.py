@@ -20,16 +20,18 @@ class SyncStats:
 class SyncEngine:
     """Hash-based synchronization engine."""
     
-    def __init__(self, logger: Logger, dry_run: bool = False):
+    def __init__(self, logger: Logger, dry_run: bool = False, vault_name: str = None):
         """
         Initialize sync engine.
         
         Args:
             logger: Logger instance
             dry_run: Whether to preview changes without applying them
+            vault_name: Optional vault name for scoped logging
         """
         self.logger = logger
         self.dry_run = dry_run
+        self.vault_name = vault_name
         self.stats = SyncStats()
     
     def sync(self, source_root: Path, target_root: Path) -> SyncStats:

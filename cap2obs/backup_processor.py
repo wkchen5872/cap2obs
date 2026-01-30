@@ -156,7 +156,7 @@ class BackupProcessor:
             backup_file: Path to ZIP file
             
         Returns:
-            Path to content root directory or None if extraction fails
+            Path to extraction root directory (temp_dir) or None if extraction fails
         """
         # Create temporary directory
         self.temp_dir = self.backup_dir.parent / self.TEMP_DIR_NAME
@@ -173,15 +173,8 @@ class BackupProcessor:
             with zipfile.ZipFile(backup_file, 'r') as zip_ref:
                 zip_ref.extractall(self.temp_dir)
             
-            # Find content root
-            content_root = self._find_content_root()
-            
-            if not content_root:
-                self.logger.error("Could not locate content root in extracted backup")
-                return None
-            
-            self.logger.info(f"Extraction complete: {content_root}")
-            return content_root
+            self.logger.info(f"Extraction complete: {self.temp_dir}")
+            return self.temp_dir
             
         except zipfile.BadZipFile:
             self.logger.error(f"Corrupted ZIP file: {backup_file}")
