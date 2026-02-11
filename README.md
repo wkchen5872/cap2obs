@@ -153,6 +153,24 @@ cap2obs --backup-dir /backups --obsidian-root /obsidian
 0 13 * * * /usr/local/bin/cap2obs --backup-dir /data/backups --obsidian-root /home/user/obsidian --keep-days 7 --log-file /var/log/cap2obs.log
 ```
 
+## macOS 額外設定
+
+### 1. 授予 cron 完整磁碟存取權限
+
+系統偏好設定 → 安全性與隱私權 → 隱私權 → 完整磁碟取用權限 → 新增 `/usr/sbin/cron`
+
+### 2. 確認日誌目錄權限
+
+```bash
+sudo mkdir -p /var/log
+sudo chmod 755 /var/log
+```
+
+或改用使用者目錄：
+
+```bash
+--log-file ~/Library/Logs/cap2obs_day.log
+```
 ## How It Works
 
 1. **File Selection**: Finds the most recent Capacities backup ZIP

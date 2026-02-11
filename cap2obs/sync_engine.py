@@ -8,6 +8,20 @@ from cap2obs.logger import Logger
 from cap2obs.hasher import compute_file_hash, files_are_identical
 
 
+# Files and directories starting with these prefixes will NEVER be deleted
+# from the target, even if they don't exist in the source.
+PROTECTED_PREFIXES = {
+    ".obsidian",
+    ".trash",
+    ".git",
+    ".smart-env",
+    ".agents",
+    ".claude",
+    ".gemini",
+    ".DS_Store",
+}
+
+
 @dataclass
 class SyncStats:
     """Statistics for sync operation."""
@@ -42,7 +56,7 @@ class SyncEngine:
         - ADD: File exists in source but not in target
         - UPDATE: File exists in both but content differs
         - SKIP: File exists in both with identical content
-        - DELETE: File exists in target but not in source
+        - DELETE: File exists in target but not in source (unless protected)
         
         Args:
             source_root: Source directory (extracted backup)
@@ -78,7 +92,12 @@ class SyncEngine:
         
         # Process target-only files (DELETE)
         files_to_delete = target_relative - source_relative
-        for rel_path in sorted(files_to_delete):
+        safe_to_delete = [
+            f for f in files_to_delete 
+            if not self._is_protected(str(f))
+        ]
+
+        for rel_path in sorted(safe_to_delete):
             target_file = target_root / rel_path
             self._delete_file(target_file, str(rel_path))
         
@@ -104,6 +123,22 @@ class SyncEngine:
         
         return files
     
+    def _is_protected(self, rel_path: str) -> bool:
+        """
+        Check if a file path is protected from deletion.
+        
+        Args:
+            rel_path: Relative path string
+            
+        Returns:
+            True if path starts with any protected prefix
+        """
+        # Check against protected prefixes
+        for prefix in PROTECTED_PREFIXES:
+            if rel_path.startswith(prefix):
+                return True
+        return False
+
     def _add_file(self, source: Path, target: Path, rel_path: str):
         """Add new file to target."""
         self.logger.add(rel_path)
