@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="cap2obs",
-    version="0.1.2",
+    version="0.2.0",
     author="Cap2Obs Contributors",
     description="Smart synchronization tool for Capacities backups to Obsidian vaults",
     long_description=long_description,
