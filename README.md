@@ -129,6 +129,28 @@ Each vault is synced independently. Files in other vaults are never affected:
 - Obsidian root contains: `Work`, `Personal`, `Family`
 - Result: `Work` and `Personal` synced; `Family` is **untouched**
 
+### 筆記對應關係
+
+- Capacities 的 **Space** = Obsidian 的 **Vault**
+- Capacities 的 **Object** 在匯出後會成為 Obsidian 中的**子資料夾**
+  - 例如：Space 名稱為 `test`，則會產生 `test/` 目錄
+  - Object 「Project」會在底下產生 `test/Project/` 子目錄
+
+### 排除規則 (不刪除或覆蓋)
+
+為了保護重要設定與文件，以下內容不會被同步規則刪除或覆蓋：
+
+**隱藏檔案或目錄：**
+* `.obsidian/`: 存放 Obsidian 的插件、佈景主題及工作區設定。
+* `.smart-env/`: 存放 AI 輔助插件（如 Smart Connections）的上下文、聊天紀錄與補全資料。
+* `.agents/`、`.claude`、`.gemini/`、`.github`: AI Agent 的 skill 與設定。
+* `.git`: git 的資料。
+
+**重要文件：**
+* `README.md`
+* `AGENTS.md`
+* `CLAUDE.md`
+
 ### Migration from `--obsidian-vault`
 
 The `--obsidian-vault` parameter is deprecated but still works:

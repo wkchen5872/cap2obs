@@ -42,7 +42,7 @@ make clean      # remove build artifacts
 1. **`cli.py` is the sole orchestrator.** All other modules are called from there; they do not call each other except `sync_engine` → `hasher`.
 2. **`hasher.py` and `logger.py` are leaf modules.** They must not import other `cap2obs` modules.
 3. **No external runtime dependencies.** Keep everything in Python stdlib.
-4. **Scope protection:** Delete operations never touch folders starting with `.obsidian`, `.trash`, `.git`, `.smart-env`, `.agents`, `.claude`, `.gemini`, `.DS_Store`.
+4. **Scope protection:** Delete operations never touch folders or files starting with `.obsidian`, `.trash`, `.git`, `.smart-env`, `.agents`, `.claude`, `.gemini`, `.github`, `.DS_Store`. Also protected are: `README.md`, `AGENTS.md`, `CLAUDE.md`.
 5. **Temp dir cleanup** is guaranteed via `atexit` + signal handlers in `BackupProcessor`.
 
 ---

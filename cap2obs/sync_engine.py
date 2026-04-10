@@ -18,6 +18,10 @@ PROTECTED_PREFIXES = {
     ".agents",
     ".claude",
     ".gemini",
+    ".github",
+    "README.md",
+    "AGENTS.md",
+    "CLAUDE.md",
     ".DS_Store",
 }
 

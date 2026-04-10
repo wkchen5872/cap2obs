@@ -67,7 +67,9 @@ Every file is evaluated against one of four outcomes:
 - **DELETE** — exists in target only, not protected → remove
 
 ### 5.2 Scope Protection
-Delete operations are scoped to the vault being synced. Folders starting with protected prefixes (`.obsidian`, `.trash`, `.git`, `.smart-env`, `.agents`, `.claude`, `.gemini`, `.DS_Store`) are **never deleted**.
+Delete operations are scoped to the vault being synced. Protected content is **never deleted or overwritten**:
+- **Hidden files/folders:** `.obsidian`, `.trash`, `.git`, `.smart-env`, `.agents`, `.claude`, `.gemini`, `.github`, `.DS_Store`.
+- **Important files:** `README.md`, `AGENTS.md`, `CLAUDE.md`.
 
 ### 5.3 Multi-Vault Detection (`vault_detector.py`)
 Two backup structures are supported:
@@ -88,3 +90,8 @@ Extraction uses `.temp_cap2obs/` adjacent to the backup directory. Cleanup is gu
 | 4 | ZIP extraction failed |
 | 5 | Permission denied |
 | 6 | Unexpected sync error or partial failure |
+
+### 5.6 Capacities to Obsidian Mapping
+Cap2Obs handles the conversion from Capacities' space/object hierarchy to Obsidian's file/folder structure:
+- **Space → Vault:** Each Capacities Space corresponds to one Obsidian Vault.
+- **Object → Subfolder:** Capacities Objects become subfolders within the vault (e.g., Space `test` with Object `Project` → `test/Project/`).
