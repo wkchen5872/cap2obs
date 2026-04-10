@@ -254,14 +254,22 @@ class SyncEngine:
                 # User has curated this note — do not overwrite
                 self._skip_file(str(rel_path))
             else:
-                source_content = source.read_text(encoding="utf-8")
+                try:
+                    source_content = source.read_text(encoding="utf-8")
+                except (OSError, UnicodeDecodeError) as e:
+                    self.logger.error(f"Failed to read {rel_path}: {e}")
+                    return
                 new_content = inject_properties(source_content, source_id)
                 self._update_md_file(target_md_path, new_content, str(rel_path))
 
             self.retained_paths.add(target_rel)
         else:
             # Not in index: new file or legacy file at same path
-            source_content = source.read_text(encoding="utf-8")
+            try:
+                source_content = source.read_text(encoding="utf-8")
+            except (OSError, UnicodeDecodeError) as e:
+                self.logger.error(f"Failed to read {rel_path}: {e}")
+                return
             new_content = inject_properties(source_content, source_id)
 
             if target.exists():
