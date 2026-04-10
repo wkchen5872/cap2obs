@@ -2,7 +2,7 @@
 
 import shutil
 from pathlib import Path
-from typing import Dict, List, Set
+from typing import Dict, List, Optional, Set
 from dataclasses import dataclass, field
 from cap2obs.logger import Logger
 from cap2obs.hasher import compute_file_hash, files_are_identical
@@ -225,6 +225,14 @@ class SyncEngine:
         """
         return scan_markdown_index(target_root)
 
+    def _read_source(self, source: Path) -> Optional[str]:
+        """Read source file text, returning None and logging on failure."""
+        try:
+            return source.read_text(encoding="utf-8")
+        except (OSError, UnicodeDecodeError) as e:
+            self.logger.error(f"Failed to read {source}: {e}")
+            return None
+
     def _sync_md_file(
         self,
         source: Path,
@@ -254,10 +262,9 @@ class SyncEngine:
                 # User has curated this note — do not overwrite
                 self._skip_file(str(rel_path))
             else:
-                try:
-                    source_content = source.read_text(encoding="utf-8")
-                except (OSError, UnicodeDecodeError) as e:
-                    self.logger.error(f"Failed to read {rel_path}: {e}")
+                source_content = self._read_source(source)
+                if source_content is None:
+                    self.retained_paths.add(target_rel)  # protect existing target from orphan deletion
                     return
                 new_content = inject_properties(source_content, source_id)
                 self._update_md_file(target_md_path, new_content, str(rel_path))
@@ -265,10 +272,8 @@ class SyncEngine:
             self.retained_paths.add(target_rel)
         else:
             # Not in index: new file or legacy file at same path
-            try:
-                source_content = source.read_text(encoding="utf-8")
-            except (OSError, UnicodeDecodeError) as e:
-                self.logger.error(f"Failed to read {rel_path}: {e}")
+            source_content = self._read_source(source)
+            if source_content is None:
                 return
             new_content = inject_properties(source_content, source_id)
 
