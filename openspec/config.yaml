@@ -2,19 +2,43 @@ schema: spec-driven
 
 # Project context (optional)
 # This is shown to AI when creating artifacts.
-# Add your tech stack, conventions, style guides, domain knowledge, etc.
-# Example:
-#   context: |
-#     Tech stack: TypeScript, React, Node.js
-#     We use conventional commits
-#     Domain: e-commerce platform
+context: |
+  ## Multi-Tool Compatibility Requirement
+  All feature planning and implementation MUST consider and support the following AI CLI tools:
+  - **Claude Code**: Primary tool for research and execution.
+  - **GitHub Copilot CLI**: Secondary interface for code generation.
+  - **Gemini CLI**: High-performance model integration.
+  - **Codex**: Legacy/Alternate execution engine.
+
+  Ensure that:
+  1. File structures are compatible with each tool's local configuration (e.g., .claude/, .gemini/).
+  2. Scripts and tools are accessible via command-line arguments and standard input.
+  3. Documentation and setup guides provide instructions for all supported platforms.
+
+  # 全域工程紀律（每次 propose 和 apply 都會自動注入）
+  所有變更必須嚴格遵循以下流程：
+  - 強制使用 obra/superpowers 的 test-driven-development + subagent-driven-development + requesting-code-review
+  - 同時參考 everything-claude-code 的 tdd-workflow + tdd-guide + AgentShield security
+  - 每個 task 都必須：先寫 failing test（RED）→ 最小 code 讓測試通過（GREEN）→ 重構 → subagent code review
+  - 只有 review 通過 + 測試綠燈 + 80%+ coverage 才能標記 task 完成
+  - 最終必須執行 security scan 和 verification-loop
 
 # Per-artifact rules (optional)
-# Add custom rules for specific artifacts.
-# Example:
-#   rules:
-#     proposal:
-#       - Keep proposals under 500 words
-#       - Always include a "Non-goals" section
-#     tasks:
-#       - Break tasks into chunks of max 2 hours
+rules:
+  design:
+    - 在 design.md 中明確說明 TDD 策略、subagent review 階段，以及 everything-claude-code 的 80% coverage 要求
+
+  tasks:
+    - |
+      每一個 task 都必須內建以下 checklist（apply 階段會自動執行）：
+      1. 先寫 failing unit/integration test（superpowers TDD）
+      2. 實作最小 code 讓測試通過（GREEN）
+      3. 重構（REFACTOR）
+      4. 呼叫 subagent 進行 code review（requesting-code-review）
+      5. 執行 everything-claude-code 的 tdd-guide + verification-loop
+      6. 只有全部通過才能繼續下一個 task
+
+  proposal:
+    - Ensure the "Capabilities" section explicitly lists support or compatibility for all four AI tools.
+  specs:
+    - Include scenarios for verifying tool-specific environment variables (e.g., CLAUDE_PROJECT_DIR, GEMINI_PROJECT_DIR).
